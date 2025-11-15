@@ -11,12 +11,12 @@ import java.util.Objects;
 public class Player extends Entity {
 
     GamePanel gp;
-    KeyHandler keyH;
+    PlayerInput input;
 
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public Player(GamePanel gp, PlayerInput input) {
 
         this.gp = gp;
-        this.keyH = keyH;
+        this.input = input;
         setDefaultValues();
         createPlayerImage();
     }
@@ -85,17 +85,17 @@ public class Player extends Entity {
 
     public void update () {
 
-        if (keyH.upPressed == true ||  keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
-            if (keyH.upPressed) {
+        if (input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()) {
+            if (input.isUpPressed()) {
                 direction = "up";
                 y -= speed;
-            } else if (keyH.downPressed) {
+            } else if (input.isDownPressed()) {
                 direction = "down";
                 y += speed;
-            } else if (keyH.leftPressed) {
+            } else if (input.isLeftPressed()) {
                 direction = "left";
                 x -= speed;
-            } else if (keyH.rightPressed) {
+            } else if (input.isRightPressed()) {
                 direction = "right";
                 x += speed;
             }

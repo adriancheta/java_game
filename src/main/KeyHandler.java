@@ -1,12 +1,33 @@
 package main;
 
+import entity.PlayerInput;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyHandler implements KeyListener {
+public class KeyHandler implements KeyListener, PlayerInput {
 
     public boolean upPressed = false, downPressed = false;
     public boolean leftPressed = false, rightPressed = false;
+
+    public boolean isUpPressed() {
+        return upPressed;
+    }
+
+    @Override
+    public boolean isDownPressed() {
+        return downPressed;
+    }
+
+    @Override
+    public boolean isLeftPressed() {
+        return leftPressed;
+    }
+
+    @Override
+    public boolean isRightPressed() {
+        return rightPressed;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
