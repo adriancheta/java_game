@@ -10,6 +10,7 @@ public class KeyHandler implements KeyListener, PlayerInput {
     public boolean upPressed = false, downPressed = false;
     public boolean leftPressed = false, rightPressed = false;
 
+    @Override
     public boolean isUpPressed() {
         return upPressed;
     }

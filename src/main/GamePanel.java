@@ -1,11 +1,9 @@
 package main;
 
-import entity.BrickWall;
-import entity.Player;
+import entity.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -22,9 +20,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
 
-    KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyH);
+
+    KeyHandler keyH = new KeyHandler();
+    GamepadHandler padH = new GamepadHandler();
+
+    PlayerInput input = new CombinedInput(keyH, padH);
+    Player player = new Player(this, input);
+
     BrickWall brick = new BrickWall(this);
 
     public GamePanel() {
@@ -77,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
+        padH.update();
         player.update();
     }
 

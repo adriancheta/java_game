@@ -47,6 +47,4 @@ public class BrickWall extends Entity{
             g2.drawImage(img, 960, y * 64, gp.tileSize, gp.tileSize, null);
         }
     }
-
-
 }
