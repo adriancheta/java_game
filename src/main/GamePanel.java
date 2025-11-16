@@ -15,20 +15,32 @@ public class GamePanel extends JPanel implements Runnable {
 
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;  //768 pixels
-    final int screenHeight = tileSize * maxScreenRow;  //576 pixels
+    final int screenWidth = tileSize * maxScreenCol;  //1024 pixels
+    final int screenHeight = tileSize * maxScreenRow;  //*number* pixels
 
     int FPS = 60;
 
     Thread gameThread;
 
+    /*TODO:
+         Make user choose between single player or local coop:
+           1) single player => use combined input
+           2) local cool => make 2 player instances
+     */
     KeyHandler keyH = new KeyHandler();
     GamepadHandler padH = new GamepadHandler();
-
     PlayerInput input = new CombinedInput(keyH, padH);
     Player player = new Player(this, input);
 
-    BrickWall brick = new BrickWall(this);
+    /*
+    KeyHandler keyH = new KeyHandler();
+    GamepadHandler padH = new GamepadHandler();
+
+    Player player1 = new Player(this, keyH);
+    Player player2 = new Player(this, keyH);
+
+     */
+
 
     public GamePanel() {
 
@@ -38,14 +50,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.addKeyListener(keyH);
         this.setFocusable(true);  // with this, game panel ca "focus" to recieve key inputs
-
     }
 
     public void startGameThread() {
 
         gameThread = new Thread(this);
         gameThread.start();
-
     }
 
     public void run() {
@@ -74,7 +84,6 @@ public class GamePanel extends JPanel implements Runnable {
             }  catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -89,10 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        brick.draw(g2);
         player.draw(g2);
         g2.dispose();
-
     }
-
 }

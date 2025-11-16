@@ -1,5 +1,6 @@
-package entity;
+package main;
 
+import entity.PlayerInput;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;

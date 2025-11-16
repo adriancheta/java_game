@@ -16,6 +16,7 @@ public class Player extends Entity {
 
         this.gp = gp;
         this.input = input;
+
         setDefaultValues();
         createPlayerImage();
     }
@@ -168,5 +169,4 @@ public class Player extends Entity {
         }
         g2.drawImage(image, x, y, gp.tileSize * 3 / 2, gp.tileSize * 3 / 2, null);
     }
-
 }

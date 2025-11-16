@@ -55,7 +55,6 @@ public class KeyHandler implements KeyListener, PlayerInput {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
         }
-
     }
 
     @Override
@@ -78,7 +77,5 @@ public class KeyHandler implements KeyListener, PlayerInput {
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }
-
     }
-
 }

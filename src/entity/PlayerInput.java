@@ -2,8 +2,8 @@ package entity;
 
 public interface PlayerInput {
 
-    public boolean isUpPressed();
-    public boolean isDownPressed();
-    public boolean isLeftPressed();
-    public boolean isRightPressed();
+    boolean isUpPressed();
+    boolean isDownPressed();
+    boolean isLeftPressed();
+    boolean isRightPressed();
 }
