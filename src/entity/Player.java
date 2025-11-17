@@ -115,11 +115,15 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+
+        else spriteNum = 1;
     }
+
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
         switch(direction) {
+
             case "up":
                 if (spriteNum == 1) {
                     image = upIdle;
@@ -131,6 +135,7 @@ public class Player extends Entity {
                     image = upMove_2;
                 }
                 break;
+
             case "down":
                 if (spriteNum == 1) {
                     image = downIdle;
@@ -142,6 +147,7 @@ public class Player extends Entity {
                     image = downMove_2;
                 }
                 break;
+
             case "left":
                 if (spriteNum == 1) {
                     image = leftIdle;
@@ -153,6 +159,7 @@ public class Player extends Entity {
                     image = leftMove_2;
                 }
                 break;
+
             case "right":
                 if (spriteNum == 1) {
                     image = rightIdle;
@@ -164,6 +171,7 @@ public class Player extends Entity {
                     image = rightMove_2;
                 }
                 break;
+
             default:
                 break;
         }
