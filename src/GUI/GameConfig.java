@@ -1,10 +1,10 @@
-package main;
+package GUI;
 
 public class GameConfig {
 
     public GameMode mode;
     public String player1Name;
-    public String player2Name; //null in single player
+    public String player2Name;
 
     public GameConfig(GameMode mode, String p1, String p2) {
 

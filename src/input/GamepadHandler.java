@@ -1,4 +1,4 @@
-package main;
+package input;
 
 import entity.PlayerInput;
 import net.java.games.input.Component;

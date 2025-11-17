@@ -1,6 +1,10 @@
-package main;
+package GUI;
 
 import entity.*;
+import input.CombinedInput;
+import entity.PlayerInput;
+import input.GamepadHandler;
+import input.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;

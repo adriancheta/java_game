@@ -1,4 +1,6 @@
-package entity;
+package input;
+
+import entity.PlayerInput;
 
 public class CombinedInput implements PlayerInput {
 
