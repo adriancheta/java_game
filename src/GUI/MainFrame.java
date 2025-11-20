@@ -43,10 +43,12 @@ public class MainFrame extends JFrame {
     }
 
     public UserManager getUserManager() {
+
         return userManager;
     }
 
     public void showLogin(GameMode mode) {
+
         LoginPanel login = new LoginPanel(this, mode);
         root.add(login, "LOGIN");
         cardLayout.show(root, "LOGIN");

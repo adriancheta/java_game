@@ -11,11 +11,13 @@ public class Player extends Entity {
 
     GamePanel gp;
     PlayerInput input;
+    int playerNumber;
 
-    public Player(GamePanel gp, PlayerInput input) {
+    public Player(GamePanel gp, PlayerInput input, int playerNumber) {
 
         this.gp = gp;
         this.input = input;
+        this.playerNumber = playerNumber;
 
         setDefaultValues();
         createPlayerImage();
@@ -30,56 +32,104 @@ public class Player extends Entity {
     }
 
     public void createPlayerImage() {
-        try {
-            //DOWN
-            downIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterDown.png"),
-                    "Missing /characterDown.png"));
+        if (playerNumber == 1) {
+            try {
+                //DOWN
+                downIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Down.png"),
+                        "Missing /character1Down.png"));
 
-            downMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterDownMove_1.png"),
-                    "Missing /characterDownMove_1.png"));
+                downMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownMove_1.png"),
+                        "Missing /character1DownMove_1.png"));
 
-            downMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterDownMove_2.png"),
-                    "Missing /characterDownMove_2.png"));
+                downMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownMove_2.png"),
+                        "Missing /character1DownMove_2.png"));
 
-            //UP
-            upIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterUp.png"),
-                    "Missing /characterUp.png"));
+                //UP
+                upIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Up.png"),
+                        "Missing /character1Up.png"));
 
-            upMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterUpMove_1.png"),
-                    "Missing /characterUpMove_1.png"));
+                upMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1UpMove_1.png"),
+                        "Missing /character1UpMove_1.png"));
 
-            upMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterUpMove_2.png"),
-                    "Missing /characterUpMove_2.png"));
+                upMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1UpMove_2.png"),
+                        "Missing /character1UpMove_2.png"));
 
-            //RIGHT
-            rightIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterRight.png"),
-                    "Missing /characterRight.png"));
+                //RIGHT
+                rightIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Right.png"),
+                        "Missing /character1Right.png"));
 
-            rightMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterRightMove_1.png"),
-                    "Missing /characterRightMove_1.png"));
+                rightMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1RightMove_1.png"),
+                        "Missing /character1RightMove_1.png"));
 
-            rightMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterRightMove_2.png"),
-                    "Missing /characterRightMove_2.png"));
+                rightMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1RightMove_2.png"),
+                        "Missing /character1RightMove_2.png"));
 
-            //LEFT
-            leftIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterLeft.png"),
-                    "Missing /characterLeft.png"));
+                //LEFT
+                leftIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Left.png"),
+                        "Missing /character1Left.png"));
 
-            leftMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterLeftMove_1.png"),
-                    "Missing /characterLeftMove_1.png"));
+                leftMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1LeftMove_1.png"),
+                        "Missing /character1LeftMove_1.png"));
 
-            leftMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/characterLeftMove_2.png"),
-                    "Missing /characterLeftMove_2.png"));
+                leftMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1LeftMove_2.png"),
+                        "Missing /character1LeftMove_2.png"));
 
-            //TODO: Character Doesn't have attack animations. You have sprites downloaded for this. Should be 2 images
+                //TODO: character1 Doesn't have attack animations. You have sprites downloaded for this. Should be 2 images
 
-            //attackDown
-            //attackUp
-            //attackLeft
-            //attackRight
+                //attackDown
+                //attackUp
+                //attackLeft
+                //attackRight
 
-        } catch (Exception e) { // IOException isn’t enough—null gives IllegalArgumentException
-            e.printStackTrace();
+            } catch (Exception e) { // IOException isn’t enough—null gives IllegalArgumentException
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                //DOWN
+                downIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Down.png"),
+                        "Missing /character2Down.png"));
+
+                downMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2DownMove_1.png"),
+                        "Missing /character2DownMove_1.png"));
+
+                downMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2DownMove_2.png"),
+                        "Missing /character2DownMove_2.png"));
+
+                //UP
+                upIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Up.png"),
+                        "Missing /character2Up.png"));
+
+                upMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2UpMove_1.png"),
+                        "Missing /character2UpMove_1.png"));
+
+                upMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2UpMove_2.png"),
+                        "Missing /character2UpMove_2.png"));
+
+                //RIGHT
+                rightIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Right.png"),
+                        "Missing /character2Right.png"));
+
+                rightMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2RightMove_1.png"),
+                        "Missing /character2RightMove_1.png"));
+
+                rightMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2RightMove_2.png"),
+                        "Missing /character2RightMove_2.png"));
+
+                //LEFT
+                leftIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Left.png"),
+                        "Missing /character2Left.png"));
+
+                leftMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2LeftMove_1.png"),
+                        "Missing /character2LeftMove_1.png"));
+
+                leftMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2LeftMove_2.png"),
+                        "Missing /character2LeftMove_2.png"));
+
+                //TODO: character2 Doesn't have attack animations. You have sprites downloaded for this. Should be 2 images
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     GamepadHandler padH = new GamepadHandler();
     PlayerInput input = new CombinedInput(keyH, padH);
-    Player player = new Player(this, input);
+    Player player = new Player(this, input, 1);
 
     public GamePanel(GameConfig config) {
 
@@ -48,10 +48,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
 
         if (config.mode == GameMode.SINGLE_PLAYER) {
-            player1 = new Player(this, keyH);
-        } else {
-            player1 = new Player(this, keyH);
-            player2 = new Player(this, padH);
+            PlayerInput inputSingle = new CombinedInput(keyH, padH);
+            player1 = new Player(this, inputSingle, 1);
+        } else { //LOCAL_COOP
+            player1 = new Player(this, keyH, 1);
+            player2 = new Player(this, padH, 2);
         }
     }
 

@@ -7,12 +7,12 @@ import java.awt.*;
 
 public class LoginPanel extends JPanel {
 
-    private MainFrame frame;
-    private GameMode mode;
+    private final MainFrame frame;
+    private final GameMode mode;
 
-    private JTextField p1Field = new JTextField(10);
-    private JTextField p2Field = new JTextField(10);
-    private JLabel statusLabel = new JLabel(" ");
+    private final JTextField p1Field = new JTextField(10);
+    private final JTextField p2Field = new JTextField(10);
+    private final JLabel statusLabel = new JLabel(" ");
 
     public LoginPanel(MainFrame frame, GameMode mode) {
 
@@ -20,6 +20,8 @@ public class LoginPanel extends JPanel {
         this.mode = mode;
 
         setLayout(new BorderLayout());
+
+        this.setPreferredSize(new Dimension(600, 500));
 
         JPanel center = new JPanel();
         if (mode == GameMode.SINGLE_PLAYER) {
