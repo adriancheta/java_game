@@ -9,7 +9,9 @@ public class GamepadHandler implements PlayerInput {
 
     private Controller gamepad;
 
-    private boolean upPressed, downPressed,  leftPressed, rightPressed;
+    private boolean upPressed = false, downPressed = false;
+    private boolean leftPressed = false, rightPressed = false;
+    private boolean attackPressed = false;
 
     @Override
     public boolean isUpPressed() {
@@ -29,6 +31,11 @@ public class GamepadHandler implements PlayerInput {
     @Override
     public boolean isRightPressed() {
         return rightPressed;
+    }
+
+    @Override
+    public boolean isAttackPressed() {
+        return attackPressed;
     }
 
     public GamepadHandler() {

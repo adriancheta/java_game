@@ -9,6 +9,7 @@ public class KeyHandler implements KeyListener, PlayerInput {
 
     public boolean upPressed = false, downPressed = false;
     public boolean leftPressed = false, rightPressed = false;
+    public boolean attackPressed = false;
 
     @Override
     public boolean isUpPressed() {
@@ -31,6 +32,11 @@ public class KeyHandler implements KeyListener, PlayerInput {
     }
 
     @Override
+    public boolean isAttackPressed() {
+        return attackPressed;
+    }
+
+    @Override
     public void keyTyped(KeyEvent e) {
 
     }
@@ -39,6 +45,10 @@ public class KeyHandler implements KeyListener, PlayerInput {
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
+
+        if (code == KeyEvent.VK_J) {
+            attackPressed = true;
+        }
 
         if (code == KeyEvent.VK_W) {
             upPressed = true;
@@ -61,6 +71,10 @@ public class KeyHandler implements KeyListener, PlayerInput {
     public void keyReleased(KeyEvent e) {
 
         int code = e.getKeyCode();
+
+        if (code == KeyEvent.VK_J) {
+            attackPressed = false;
+        }
 
         if (code == KeyEvent.VK_W) {
             upPressed = false;

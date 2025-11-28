@@ -5,12 +5,13 @@ import java.util.Map;
 
 public class UserManager {
 
-    private Map<String, User> users = new HashMap<>();
+    private final Map<String, User> users = new HashMap<>();
 
     public User register(String username) {
         if (users.containsKey(username)) {
             throw new IllegalArgumentException("Username already exists!");
         }
+
         User u = new User(username);
         users.put(username, u);
         return u;

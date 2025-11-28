@@ -47,10 +47,10 @@ public class GamePanel extends JPanel implements Runnable {
         requestFocusInWindow();
         this.setDoubleBuffered(true);
 
-        if (config.mode == GameMode.SINGLE_PLAYER) {
+        if (config.mode == GameMode.SINGLE_PLAYER) {  //SINGLE_PLAYER
             PlayerInput inputSingle = new CombinedInput(keyH, padH);
             player1 = new Player(this, inputSingle, 1);
-        } else { //LOCAL_COOP
+        } else {                                      //LOCAL_COOP
             player1 = new Player(this, keyH, 1);
             player2 = new Player(this, padH, 2);
         }

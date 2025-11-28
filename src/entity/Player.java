@@ -37,50 +37,50 @@ public class Player extends Entity {
                 //DOWN
                 downIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Down.png"),
                         "Missing /character1Down.png"));
-
                 downMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownMove_1.png"),
                         "Missing /character1DownMove_1.png"));
-
                 downMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownMove_2.png"),
                         "Missing /character1DownMove_2.png"));
 
                 //UP
                 upIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Up.png"),
                         "Missing /character1Up.png"));
-
                 upMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1UpMove_1.png"),
                         "Missing /character1UpMove_1.png"));
-
                 upMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1UpMove_2.png"),
                         "Missing /character1UpMove_2.png"));
 
                 //RIGHT
                 rightIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Right.png"),
                         "Missing /character1Right.png"));
-
                 rightMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1RightMove_1.png"),
                         "Missing /character1RightMove_1.png"));
-
                 rightMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1RightMove_2.png"),
                         "Missing /character1RightMove_2.png"));
 
                 //LEFT
                 leftIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Left.png"),
                         "Missing /character1Left.png"));
-
                 leftMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1LeftMove_1.png"),
                         "Missing /character1LeftMove_1.png"));
-
                 leftMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1LeftMove_2.png"),
                         "Missing /character1LeftMove_2.png"));
 
+                //ATTACK
+                downAttack_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_1.png"),
+                        "Missing /character1DownAttack_1.png"));
+                downAttack_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_2.png"),
+                        "Missing /character1DownAttack_2.png"));
+                downAttack_3 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_3.png"),
+                        "Missing /character1DownAttack_3.png"));
+                downAttack_4 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_4.png"),
+                        "Missing /character1DownAttack_4.png"));
+                downAttack_5 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_5.png"),
+                        "Missing /character1DownAttack_5.png"));
+                downAttack_6 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_6.png"),
+                        "Missing /character1DownAttack_6.png"));
+
                 //TODO: character1 Doesn't have attack animations. You have sprites downloaded for this. Should be 2 images
-
-                //attackDown
-                //attackUp
-                //attackLeft
-                //attackRight
-
             } catch (Exception e) { // IOException isn’t enough—null gives IllegalArgumentException
                 e.printStackTrace();
             }
@@ -126,6 +126,9 @@ public class Player extends Entity {
                 leftMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2LeftMove_2.png"),
                         "Missing /character2LeftMove_2.png"));
 
+                //ATTACK
+
+
                 //TODO: character2 Doesn't have attack animations. You have sprites downloaded for this. Should be 2 images
             } catch (Exception e) {
                 e.printStackTrace();
@@ -163,6 +166,12 @@ public class Player extends Entity {
                 }
 
                 spriteCounter = 0;
+            }
+        }
+
+        if (input.isAttackPressed()) {
+            if (direction.equals("down")) {
+
             }
         }
 
@@ -219,6 +228,15 @@ public class Player extends Entity {
                 }
                 if (spriteNum == 3) {
                     image = rightMove_2;
+                }
+                break;
+
+            case "downAttack":
+                if (attackNum == 1) {
+                    image = downAttack_1;
+                }
+                if (attackNum == 2) {
+                    image = downAttack_2;
                 }
                 break;
 

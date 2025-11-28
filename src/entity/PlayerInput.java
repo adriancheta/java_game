@@ -6,4 +6,5 @@ public interface PlayerInput {
     boolean isDownPressed();
     boolean isLeftPressed();
     boolean isRightPressed();
+    boolean isAttackPressed();
 }

@@ -21,9 +21,10 @@ public class LoginPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        this.setPreferredSize(new Dimension(600, 500));
+        this.setPreferredSize(new Dimension(300, 100));
 
         JPanel center = new JPanel();
+
         if (mode == GameMode.SINGLE_PLAYER) {
             center.setLayout(new GridLayout(2, 2, 5, 5));
             center.add(new JLabel("Player name:"));

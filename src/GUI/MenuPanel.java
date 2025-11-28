@@ -7,7 +7,7 @@ public class MenuPanel extends JPanel {
 
     public MenuPanel(MainFrame frame) {
 
-        setPreferredSize(new Dimension(1024, 768));
+        setPreferredSize(new Dimension(384, 288));
         setLayout(new GridLayout(3, 1, 10, 10));
 
         JButton singleBtn = new JButton("Single Player");
