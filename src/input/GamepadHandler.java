@@ -53,25 +53,33 @@ public class GamepadHandler implements PlayerInput {
     public void update() {
 
         if (gamepad == null) {
-            upPressed = downPressed = leftPressed = rightPressed = false;
+            upPressed = downPressed = leftPressed = rightPressed = attackPressed = false;
             return;
         }
 
         if (!gamepad.poll()) {
-            upPressed = downPressed = leftPressed = rightPressed = false;
+            upPressed = downPressed = leftPressed = rightPressed = attackPressed = false;
             gamepad = null;
             return;
         }
 
-        upPressed = downPressed = leftPressed = rightPressed = false;
+        upPressed = downPressed = leftPressed = rightPressed = attackPressed = false;
 
         Component[] components = gamepad.getComponents();
+
         float deadZone = 0.2f; // from where do we count moving the joystick as an event
+        float pressZone = 1.0f; // from where do we count pressing the button as pressed
 
         for (Component comp : components) {
 
             Component.Identifier id = comp.getIdentifier();
             float value = comp.getPollData();
+
+            if (id == Component.Identifier.Button._2) {
+                if (value == pressZone) {
+                    attackPressed = true;
+                }
+            }
 
             if (id == Component.Identifier.Axis.X) {
                 if (value < -deadZone) {

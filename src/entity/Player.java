@@ -12,6 +12,7 @@ public class Player extends Entity {
     GamePanel gp;
     PlayerInput input;
     int playerNumber;
+    private boolean attacking = false;
 
     public Player(GamePanel gp, PlayerInput input, int playerNumber) {
 
@@ -20,7 +21,7 @@ public class Player extends Entity {
         this.playerNumber = playerNumber;
 
         setDefaultValues();
-        createPlayerImage();
+        SpriteLoader.loadPlayerSprites(this, playerNumber);
     }
 
     public void setDefaultValues() {
@@ -29,153 +30,89 @@ public class Player extends Entity {
         y = 100;
         speed = 4;
         direction = "down";
-    }
 
-    public void createPlayerImage() {
-        if (playerNumber == 1) {
-            try {
-                //DOWN
-                downIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Down.png"),
-                        "Missing /character1Down.png"));
-                downMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownMove_1.png"),
-                        "Missing /character1DownMove_1.png"));
-                downMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownMove_2.png"),
-                        "Missing /character1DownMove_2.png"));
+        attacking = false;
+        attackNum = 1;
+        attackCounter = 0;
 
-                //UP
-                upIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Up.png"),
-                        "Missing /character1Up.png"));
-                upMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1UpMove_1.png"),
-                        "Missing /character1UpMove_1.png"));
-                upMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1UpMove_2.png"),
-                        "Missing /character1UpMove_2.png"));
-
-                //RIGHT
-                rightIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Right.png"),
-                        "Missing /character1Right.png"));
-                rightMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1RightMove_1.png"),
-                        "Missing /character1RightMove_1.png"));
-                rightMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1RightMove_2.png"),
-                        "Missing /character1RightMove_2.png"));
-
-                //LEFT
-                leftIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1Left.png"),
-                        "Missing /character1Left.png"));
-                leftMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1LeftMove_1.png"),
-                        "Missing /character1LeftMove_1.png"));
-                leftMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1LeftMove_2.png"),
-                        "Missing /character1LeftMove_2.png"));
-
-                //ATTACK
-                downAttack_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_1.png"),
-                        "Missing /character1DownAttack_1.png"));
-                downAttack_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_2.png"),
-                        "Missing /character1DownAttack_2.png"));
-                downAttack_3 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_3.png"),
-                        "Missing /character1DownAttack_3.png"));
-                downAttack_4 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_4.png"),
-                        "Missing /character1DownAttack_4.png"));
-                downAttack_5 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_5.png"),
-                        "Missing /character1DownAttack_5.png"));
-                downAttack_6 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character1DownAttack_6.png"),
-                        "Missing /character1DownAttack_6.png"));
-
-                //TODO: character1 Doesn't have attack animations. You have sprites downloaded for this. Should be 2 images
-            } catch (Exception e) { // IOException isn’t enough—null gives IllegalArgumentException
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                //DOWN
-                downIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Down.png"),
-                        "Missing /character2Down.png"));
-
-                downMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2DownMove_1.png"),
-                        "Missing /character2DownMove_1.png"));
-
-                downMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2DownMove_2.png"),
-                        "Missing /character2DownMove_2.png"));
-
-                //UP
-                upIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Up.png"),
-                        "Missing /character2Up.png"));
-
-                upMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2UpMove_1.png"),
-                        "Missing /character2UpMove_1.png"));
-
-                upMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2UpMove_2.png"),
-                        "Missing /character2UpMove_2.png"));
-
-                //RIGHT
-                rightIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Right.png"),
-                        "Missing /character2Right.png"));
-
-                rightMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2RightMove_1.png"),
-                        "Missing /character2RightMove_1.png"));
-
-                rightMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2RightMove_2.png"),
-                        "Missing /character2RightMove_2.png"));
-
-                //LEFT
-                leftIdle = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2Left.png"),
-                        "Missing /character2Left.png"));
-
-                leftMove_1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2LeftMove_1.png"),
-                        "Missing /character2LeftMove_1.png"));
-
-                leftMove_2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/character2LeftMove_2.png"),
-                        "Missing /character2LeftMove_2.png"));
-
-                //ATTACK
-
-
-                //TODO: character2 Doesn't have attack animations. You have sprites downloaded for this. Should be 2 images
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        spriteNum = 1;
+        spriteCounter = 0;
     }
 
     public void update () {
 
-        if (input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()) {
-            if (input.isUpPressed()) {
-                direction = "up";
-                y -= speed;
-            } else if (input.isDownPressed()) {
-                direction = "down";
-                y += speed;
-            } else if (input.isLeftPressed()) {
-                direction = "left";
-                x -= speed;
-            } else if (input.isRightPressed()) {
-                direction = "right";
-                x += speed;
-            }
+        if (!attacking && input.isAttackPressed()) {
+            attacking = true;
+            attackNum = 1;
+            attackCounter = 0;
+        }
 
-            spriteCounter++;
+        if (attacking) {
+            attackCounter++;
 
-            if (spriteCounter == 11) {
+            if (attackCounter == 7 ) {
 
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 3;
-                } else if (spriteNum == 3) {
+                if (attackNum == 1) {
+                    attackNum = 2;
+                } else if (attackNum == 2) {
+                    attackNum = 3;
+                } else if (attackNum == 3) {
+                    attackNum = 4;
+                } else if (attackNum == 4) {
+                    attackNum = 5;
+                } else if (attackNum == 5) {
+                    attackNum = 6;
+                } else if (attackNum == 6) {
+                    attackNum = 1;
                     spriteNum = 1;
+                    attacking = false;
                 }
 
-                spriteCounter = 0;
+                attackCounter = 0;
             }
         }
 
-        if (input.isAttackPressed()) {
-            if (direction.equals("down")) {
+        else {
+            attackNum = 1;
+        }
 
+        if (!input.isAttackPressed() && !attacking) {
+            if (input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()) {
+                if (input.isUpPressed()) {
+                    direction = "up";
+                    y -= speed;
+                } else if (input.isDownPressed()) {
+                    direction = "down";
+                    y += speed;
+                } else if (input.isLeftPressed()) {
+                    direction = "left";
+                    x -= speed;
+                } else if (input.isRightPressed()) {
+                    direction = "right";
+                    x += speed;
+                }
+
+                spriteCounter++;
+
+                if (spriteCounter == 11) {
+
+                    if (spriteNum == 1) {
+                        spriteNum = 2;
+                    } else if (spriteNum == 2) {
+                        spriteNum = 3;
+                    } else if (spriteNum == 3) {
+                        spriteNum = 1;
+                    }
+
+                    spriteCounter = 0;
+                }
+            }
+
+            else {
+                spriteNum = 1;
             }
         }
 
-        else spriteNum = 1;
     }
 
     public void draw(Graphics2D g2) {
@@ -193,6 +130,26 @@ public class Player extends Entity {
                 if (spriteNum == 3) {
                     image = upMove_2;
                 }
+                if (attacking) {
+                    if (attackNum == 1) {
+                        image = upAttack_1;
+                    }
+                    if (attackNum == 2) {
+                        image = upAttack_2;
+                    }
+                    if (attackNum == 3) {
+                        image = upAttack_3;
+                    }
+                    if (attackNum == 4) {
+                        image = upAttack_4;
+                    }
+                    if (attackNum == 5) {
+                        image = upAttack_5;
+                    }
+                    if (attackNum == 6) {
+                        image = upAttack_6;
+                    }
+                }
                 break;
 
             case "down":
@@ -204,6 +161,26 @@ public class Player extends Entity {
                 }
                 if (spriteNum == 3) {
                     image = downMove_2;
+                }
+                if (attacking) {
+                    if (attackNum == 1) {
+                        image = downAttack_1;
+                    }
+                    if (attackNum == 2) {
+                        image = downAttack_2;
+                    }
+                    if (attackNum == 3) {
+                        image = downAttack_3;
+                    }
+                    if (attackNum == 4) {
+                        image = downAttack_4;
+                    }
+                    if (attackNum == 5) {
+                        image = downAttack_5;
+                    }
+                    if (attackNum == 6) {
+                        image = downAttack_6;
+                    }
                 }
                 break;
 
@@ -217,6 +194,26 @@ public class Player extends Entity {
                 if (spriteNum == 3) {
                     image = leftMove_2;
                 }
+                if (attacking) {
+                    if (attackNum == 1) {
+                        image = leftAttack_1;
+                    }
+                    if (attackNum == 2) {
+                        image = leftAttack_2;
+                    }
+                    if (attackNum == 3) {
+                        image = leftAttack_3;
+                    }
+                    if (attackNum == 4) {
+                        image = leftAttack_4;
+                    }
+                    if (attackNum == 5) {
+                        image = leftAttack_5;
+                    }
+                    if (attackNum == 6) {
+                        image = leftAttack_6;
+                    }
+                }
                 break;
 
             case "right":
@@ -229,14 +226,25 @@ public class Player extends Entity {
                 if (spriteNum == 3) {
                     image = rightMove_2;
                 }
-                break;
-
-            case "downAttack":
-                if (attackNum == 1) {
-                    image = downAttack_1;
-                }
-                if (attackNum == 2) {
-                    image = downAttack_2;
+                if (attacking) {
+                    if (attackNum == 1) {
+                        image = rightAttack_1;
+                    }
+                    if (attackNum == 2) {
+                        image = rightAttack_2;
+                    }
+                    if (attackNum == 3) {
+                        image = rightAttack_3;
+                    }
+                    if (attackNum == 4) {
+                        image = rightAttack_4;
+                    }
+                    if (attackNum == 5) {
+                        image = rightAttack_5;
+                    }
+                    if (attackNum == 6) {
+                        image = rightAttack_6;
+                    }
                 }
                 break;
 
