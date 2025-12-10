@@ -1,18 +1,17 @@
 package entity;
 
-import GUI.GamePanel;
+import main.GamePanel;
+import input.PlayerInput;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Objects;
 
-public class Player extends Entity {
+public class Player extends PlayerActions {
 
     GamePanel gp;
     PlayerInput input;
     int playerNumber;
-    private boolean attacking = false;
+    public boolean attacking = false;
 
     public Player(GamePanel gp, PlayerInput input, int playerNumber) {
 
@@ -26,10 +25,22 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
 
-        x = 100;
-        y = 100;
+        health = 100;
         speed = 4;
+
+        if (playerNumber == 1) {
+            x = 100;
+            y = 100;
+        } else {
+            x = 200;
+            y = 200;
+        }
         direction = "down";
+
+        bodyHitbox = new Rectangle(x, y,28,40);
+        bodyHitboxOffsetX = 10;
+        bodyHitboxOffsetY = 5;
+        HitboxMap.insertPlayerHitbox(this, bodyHitbox);
 
         attacking = false;
         attackNum = 1;
@@ -41,84 +52,102 @@ public class Player extends Entity {
 
     public void update () {
 
-        if (!attacking && input.isAttackPressed()) {
-            attacking = true;
-            attackNum = 1;
-            attackCounter = 0;
-        }
+        if (health > 0) {  // If player is alive, perform actions
 
-        if (attacking) {
-            attackCounter++;
-
-            if (attackCounter == 7 ) {
-
-                if (attackNum == 1) {
-                    attackNum = 2;
-                } else if (attackNum == 2) {
-                    attackNum = 3;
-                } else if (attackNum == 3) {
-                    attackNum = 4;
-                } else if (attackNum == 4) {
-                    attackNum = 5;
-                } else if (attackNum == 5) {
-                    attackNum = 6;
-                } else if (attackNum == 6) {
-                    attackNum = 1;
-                    spriteNum = 1;
-                    attacking = false;
-                }
-
+            if (!attacking && input.isAttackPressed()) { // Perform normal actions
+                attacking = true;
+                attackNum = 1;
                 attackCounter = 0;
             }
-        }
 
-        else {
-            attackNum = 1;
-        }
+            if (attacking) { // Player is attacking
 
-        if (!input.isAttackPressed() && !attacking) {
-            if (input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()) {
-                if (input.isUpPressed()) {
-                    direction = "up";
-                    y -= speed;
-                } else if (input.isDownPressed()) {
-                    direction = "down";
-                    y += speed;
-                } else if (input.isLeftPressed()) {
-                    direction = "left";
-                    x -= speed;
-                } else if (input.isRightPressed()) {
-                    direction = "right";
-                    x += speed;
-                }
+                attackCounter++;
+                if (attackCounter == 7) {
+                    attackNum++;
 
-                spriteCounter++;
+                    if (attackNum == 2) { // create the hitbox in attackNum 2
+                        switch (direction) {
+                            case "up":
+                                Rectangle attackBox = new Rectangle(x+4, y+4, 40, gp.tileSize*2/3); // Attack box for up attack aprox (change later)
+                                break;
 
-                if (spriteCounter == 11) {
+                            case "down":
+                                Rectangle attackBox = new Rectangle(x-, y+4, 40, gp.tileSize*2/3);
+                                break;
 
-                    if (spriteNum == 1) {
-                        spriteNum = 2;
-                    } else if (spriteNum == 2) {
-                        spriteNum = 3;
-                    } else if (spriteNum == 3) {
+                            case "left":
+                                break;
+
+                            case "right":
+                                attackHitbox.x = x + gp.tileSize;
+                                attackHitbox.y = y + gp.tileSize / 2;
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }  else if (attackNum == 5) {
+                        attackBox = null;
+                    }
+                    // delete the hitbox in attackNum 5
+
+                    if (attackNum == 6) {
+                        attackNum = 1;
                         spriteNum = 1;
+                        attacking = false;
                     }
 
-                    spriteCounter = 0;
+                    attackCounter = 0;
+                }
+            } else {
+                attackNum = 1;
+            }
+
+            if (!input.isAttackPressed() && !attacking) {
+                if (input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()) {
+                    if (input.isUpPressed()) {
+                        direction = "up";
+                        y -= speed;
+                    } else if (input.isDownPressed()) {
+                        direction = "down";
+                        y += speed;
+                    } else if (input.isLeftPressed()) {
+                        direction = "left";
+                        x -= speed;
+                    } else if (input.isRightPressed()) {
+                        direction = "right";
+                        x += speed;
+                    }
+
+                    spriteCounter++;
+
+                    if (spriteCounter == 10) {
+                        spriteNum++;
+
+                        if (spriteNum == 3) {
+                            spriteNum = 1;
+                        }
+
+                        spriteCounter = 0;
+                    }
+                } else {
+                    spriteNum = 1;
                 }
             }
+            bodyHitbox.x = x + bodyHitboxOffsetX;
+            bodyHitbox.y = y + bodyHitboxOffsetY;
 
-            else {
-                spriteNum = 1;
-            }
+        } else {
+            HitboxMap.removePlayerHitbox(this);
         }
-
     }
 
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
-        switch(direction) {
+
+        switch (direction) {
 
             case "up":
                 if (spriteNum == 1) {
@@ -250,7 +279,7 @@ public class Player extends Entity {
 
             default:
                 break;
-        }
+            }
         g2.drawImage(image, x, y, gp.tileSize * 3 / 2, gp.tileSize * 3 / 2, null);
     }
 }

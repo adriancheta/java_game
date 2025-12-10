@@ -1,5 +1,6 @@
 package GUI;
 
+import main.GamePanel;
 import user.UserManager;
 
 import javax.swing.*;

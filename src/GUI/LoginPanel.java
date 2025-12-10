@@ -63,8 +63,8 @@ public class LoginPanel extends JPanel {
     }
 
     private void handleSingleLogin(boolean register) {
-
         String name = p1Field.getText().trim();
+
         if (name.isEmpty()) {
             statusLabel.setText("Enter a name");
             return;

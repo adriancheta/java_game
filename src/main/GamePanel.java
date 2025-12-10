@@ -1,8 +1,10 @@
-package GUI;
+package main;
 
+import GUI.GameConfig;
+import GUI.GameMode;
 import entity.*;
 import input.CombinedInput;
-import entity.PlayerInput;
+import input.PlayerInput;
 import input.GamepadHandler;
 import input.KeyHandler;
 
@@ -33,7 +35,6 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     GamepadHandler padH = new GamepadHandler();
     PlayerInput input = new CombinedInput(keyH, padH);
-    Player player = new Player(this, input, 1);
 
     public GamePanel(GameConfig config) {
 
@@ -70,7 +71,6 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
 
             update();
-
             repaint();
 
             try {
@@ -117,5 +117,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void addNotify() {
         super.addNotify();
         requestFocusInWindow();
+    }
+
+    private void checkPlayerHits() {
+        if (player1.attacking) {
+
+        }
     }
 }

@@ -2,7 +2,6 @@ package entity;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Objects;
 
 public final class SpriteLoader {
@@ -77,5 +76,7 @@ public final class SpriteLoader {
             e.printStackTrace();
         }
     }
+
+
 
 }
