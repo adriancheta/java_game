@@ -34,4 +34,9 @@ public class CombinedInput implements PlayerInput {
     public boolean isAttackPressed() {
         return a.isAttackPressed() || b.isAttackPressed();
     }
+
+    @Override
+    public boolean isDashPressed() {
+        return a.isDashPressed() || b.isDashPressed();
+    }
 }

@@ -9,8 +9,10 @@ public class PlayerActions extends Entity {
     public int bodyHitboxOffsetX;
     public int bodyHitboxOffsetY;
 
-    public Rectangle attackHitbox_1;
-    public Rectangle attackHitbox_2;
+    public int dashCooldownFrames = 0;
+
+    public Rectangle attackHitbox;
+    public boolean attackHitboxActive;
 
     public BufferedImage upIdle, upMove_1, upMove_2;
     public BufferedImage upAttack_1, upAttack_2, upAttack_3, upAttack_4, upAttack_5, upAttack_6;
@@ -28,5 +30,22 @@ public class PlayerActions extends Entity {
         health -= damage;
     }
 
-
+    public void dash() {
+        switch(direction) {
+            case "up":
+                y -= 175;
+                break;
+            case "down":
+                y += 175;
+                break;
+            case "left":
+                x -= 175;
+                break;
+            case "right":
+                x += 175;
+                break;
+            default:
+                break;
+        }
+    }
 }

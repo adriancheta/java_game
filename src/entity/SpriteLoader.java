@@ -1,5 +1,7 @@
 package entity;
 
+import main.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
@@ -10,7 +12,7 @@ public final class SpriteLoader {
 
     }
 
-    public static BufferedImage loadSprite(String path) {
+    public static BufferedImage loadSprite (String path) {
         try {
             return ImageIO.read(Objects.requireNonNull(SpriteLoader.class.getResource(path),
                     "Missing" + path));
@@ -20,7 +22,7 @@ public final class SpriteLoader {
         }
     }
 
-    public static void loadPlayerSprites(Player player, int playerNumber) {
+    public static void loadPlayerSprites (Player player, int playerNumber) {
         try {
             player.downIdle = loadSprite("/character" + playerNumber + "Down.png");
             player.downMove_1 = loadSprite("/character" + playerNumber + "DownMove_1.png");
@@ -77,6 +79,16 @@ public final class SpriteLoader {
         }
     }
 
-
-
+    public static void loadDashSprites(GamePanel gamePanel) {
+        try {
+            gamePanel.dash_1 = loadSprite("/dashSmoke_1.png");
+            gamePanel.dash_2 = loadSprite("/dashSmoke_2.png");
+            gamePanel.dash_3 = loadSprite("/dashSmoke_3.png");
+            gamePanel.dash_4 = loadSprite("/dashSmoke_4.png");
+            gamePanel.dash_5 = loadSprite("/dashSmoke_5.png");
+            gamePanel.dash_6 = loadSprite("/dashSmoke_6.png");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

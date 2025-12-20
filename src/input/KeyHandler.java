@@ -7,7 +7,7 @@ public class KeyHandler implements KeyListener, PlayerInput {
 
     public boolean upPressed = false, downPressed = false;
     public boolean leftPressed = false, rightPressed = false;
-    public boolean attackPressed = false;
+    public boolean attackPressed = false, dashPressed = false;
 
     @Override
     public boolean isUpPressed() {
@@ -35,6 +35,11 @@ public class KeyHandler implements KeyListener, PlayerInput {
     }
 
     @Override
+    public boolean isDashPressed() {
+        return dashPressed;
+    }
+
+    @Override
     public void keyTyped(KeyEvent e) {
 
     }
@@ -43,6 +48,10 @@ public class KeyHandler implements KeyListener, PlayerInput {
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
+
+        if (code == KeyEvent.VK_SHIFT) {
+            dashPressed = true;
+        }
 
         if (code == KeyEvent.VK_J) {
             attackPressed = true;
@@ -69,6 +78,10 @@ public class KeyHandler implements KeyListener, PlayerInput {
     public void keyReleased(KeyEvent e) {
 
         int code = e.getKeyCode();
+
+        if (code == KeyEvent.VK_SHIFT) {
+            dashPressed = false;
+        }
 
         if (code == KeyEvent.VK_J) {
             attackPressed = false;

@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class Player extends PlayerActions {
 
     GamePanel gp;
-    PlayerInput input;
+    public PlayerInput input;
     int playerNumber;
     public boolean attacking = false;
 
@@ -37,10 +37,12 @@ public class Player extends PlayerActions {
         }
         direction = "down";
 
-        bodyHitbox = new Rectangle(x, y,28,40);
+        bodyHitbox = new Rectangle(0, 0, 28, 40);
         bodyHitboxOffsetX = 10;
         bodyHitboxOffsetY = 5;
-        HitboxMap.insertPlayerHitbox(this, bodyHitbox);
+
+        attackHitbox = new Rectangle(0, 0, 40, gp.tileSize * 2 / 3);
+        attackHitboxActive = false;
 
         attacking = false;
         attackNum = 1;
@@ -54,54 +56,58 @@ public class Player extends PlayerActions {
 
         if (health > 0) {  // If player is alive, perform actions
 
+            if (dashCooldownFrames > 0) {
+                dashCooldownFrames--;
+            }
+
             if (!attacking && input.isAttackPressed()) { // Perform normal actions
                 attacking = true;
                 attackNum = 1;
                 attackCounter = 0;
+                attackHitboxActive = false;
             }
 
-            if (attacking) { // Player is attacking
-
+            if (attacking) {
                 attackCounter++;
+
                 if (attackCounter == 7) {
+                    attackCounter = 0;
                     attackNum++;
 
-                    if (attackNum == 2) { // create the hitbox in attackNum 2
-                        switch (direction) {
-                            case "up":
-                                Rectangle attackBox = new Rectangle(x+4, y+4, 40, gp.tileSize*2/3); // Attack box for up attack aprox (change later)
-                                break;
-
-                            case "down":
-                                Rectangle attackBox = new Rectangle(x-, y+4, 40, gp.tileSize*2/3);
-                                break;
-
-                            case "left":
-                                break;
-
-                            case "right":
-                                attackHitbox.x = x + gp.tileSize;
-                                attackHitbox.y = y + gp.tileSize / 2;
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }  else if (attackNum == 5) {
-                        attackBox = null;
-                    }
-                    // delete the hitbox in attackNum 5
-
-                    if (attackNum == 6) {
+                    if (attackNum > 6) {
                         attackNum = 1;
                         spriteNum = 1;
                         attacking = false;
+                        attackHitboxActive = false;
                     }
-
-                    attackCounter = 0;
                 }
             } else {
                 attackNum = 1;
+            }
+
+            if (attacking && attackNum >= 2 && attackNum <= 4) {
+                attackHitboxActive = true;
+
+                switch (direction) {
+                    case "up":
+                        attackHitbox.x = x + gp.tileSize / 4;
+                        attackHitbox.y = y - attackHitbox.height;
+                        break;
+                    case "down":
+                        attackHitbox.x = x + gp.tileSize / 4;
+                        attackHitbox.y = y + gp.tileSize;
+                        break;
+                    case "left":
+                        attackHitbox.x = x - attackHitbox.width;
+                        attackHitbox.y = y + gp.tileSize / 4;
+                        break;
+                    case "right":
+                        attackHitbox.x = x + gp.tileSize;
+                        attackHitbox.y = y + gp.tileSize / 4;
+                        break;
+                }
+            } else {
+                attackHitboxActive = false;
             }
 
             if (!input.isAttackPressed() && !attacking) {
@@ -139,7 +145,7 @@ public class Player extends PlayerActions {
             bodyHitbox.y = y + bodyHitboxOffsetY;
 
         } else {
-            HitboxMap.removePlayerHitbox(this);
+            attackHitboxActive = false;
         }
     }
 

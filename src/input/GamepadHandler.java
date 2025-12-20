@@ -10,7 +10,7 @@ public class GamepadHandler implements PlayerInput {
 
     private boolean upPressed = false, downPressed = false;
     private boolean leftPressed = false, rightPressed = false;
-    private boolean attackPressed = false;
+    private boolean attackPressed = false, dashPressed = false;
 
     @Override
     public boolean isUpPressed() {
@@ -35,6 +35,11 @@ public class GamepadHandler implements PlayerInput {
     @Override
     public boolean isAttackPressed() {
         return attackPressed;
+    }
+
+    @Override
+    public boolean isDashPressed() {
+        return dashPressed;
     }
 
     public GamepadHandler() {
@@ -66,13 +71,19 @@ public class GamepadHandler implements PlayerInput {
 
         Component[] components = gamepad.getComponents();
 
-        float deadZone = 0.2f; // from where do we count moving the joystick as an event
-        float pressZone = 1.0f; // from where do we count pressing the button as pressed
+        float deadZone = 0.2f; // From where do we count moving the joystick as an event
+        float pressZone = 1.0f; // From where do we count pressing the button as pressed
 
         for (Component comp : components) {
 
             Component.Identifier id = comp.getIdentifier();
             float value = comp.getPollData();
+
+            if (id == Component.Identifier.Button._1) {
+                if (value < pressZone) {
+                    dashPressed = true;
+                }
+            }
 
             if (id == Component.Identifier.Button._2) {
                 if (value == pressZone) {
