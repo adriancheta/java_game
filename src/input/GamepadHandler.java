@@ -44,6 +44,8 @@ public class GamepadHandler implements PlayerInput {
 
     public GamepadHandler() {
 
+        printDetectedControllers();
+
         Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
 
         for (Controller c : controllers) {
@@ -56,37 +58,37 @@ public class GamepadHandler implements PlayerInput {
 
     public void update() {
 
+        upPressed = downPressed = leftPressed = rightPressed = false;
+        dashPressed = attackPressed = false;
+
         if (gamepad == null) {
-            upPressed = downPressed = leftPressed = rightPressed = attackPressed = false;
-            return;
+            scanForController();
+            if (gamepad == null) {
+                return;
+            }
         }
 
         if (!gamepad.poll()) {
-            upPressed = downPressed = leftPressed = rightPressed = attackPressed = false;
             gamepad = null;
             return;
         }
 
-        upPressed = downPressed = leftPressed = rightPressed = attackPressed = false;
-
-        Component[] components = gamepad.getComponents();
-
         float deadZone = 0.2f; // From where do we count moving the joystick as an event
-        float pressZone = 1.0f; // From where do we count pressing the button as pressed
+        float pressZone = 0.5f; // From where do we count pressing the button as pressed
 
-        for (Component comp : components) {
+        for (Component comp : gamepad.getComponents()) {
 
             Component.Identifier id = comp.getIdentifier();
             float value = comp.getPollData();
 
             if (id == Component.Identifier.Button._1) {
-                if (value < pressZone) {
+                if (value >= pressZone) {
                     dashPressed = true;
                 }
             }
 
             if (id == Component.Identifier.Button._2) {
-                if (value == pressZone) {
+                if (value >= pressZone) {
                     attackPressed = true;
                 }
             }
@@ -94,8 +96,7 @@ public class GamepadHandler implements PlayerInput {
             if (id == Component.Identifier.Axis.X) {
                 if (value < -deadZone) {
                     leftPressed = true;
-                }
-                else if (value > deadZone) {
+                } else if (value > deadZone) {
                     rightPressed = true;
                 }
             }
@@ -103,13 +104,48 @@ public class GamepadHandler implements PlayerInput {
             if (id == Component.Identifier.Axis.Y) {
                 if (value < -deadZone) {
                     upPressed = true;
-                }
-                else if (value > deadZone) {
+                } else if (value > deadZone) {
                     downPressed = true;
                 }
             }
         }
     }
+
+    private void scanForController() {
+        Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+
+        for (Controller c : controllers) {
+            if (c.getType() == Controller.Type.GAMEPAD || c.getType() == Controller.Type.STICK || c.getType() == Controller.Type.UNKNOWN) {
+                // Prefer controllers that actually have X/Y axes
+                boolean hasX = false, hasY = false;
+                for (Component comp : c.getComponents()) {
+                    if (comp.getIdentifier() == Component.Identifier.Axis.X) hasX = true;
+                    if (comp.getIdentifier() == Component.Identifier.Axis.Y) hasY = true;
+                }
+                if (hasX && hasY) {
+                    gamepad = c;
+                    System.out.println("Gamepad selected: " + c.getName() + " (" + c.getType() + ")");
+                    return;
+                }
+            }
+        }
+
+        System.out.println("No gamepad detected by JInput.");
+    }
+
+    private void printDetectedControllers() {
+
+        Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+
+        System.out.println("Detected controllers: " + controllers.length);
+
+        for (Controller c : controllers) {
+            System.out.println("Controller: " + c.getName() + " | Type: " + c.getType());
+
+            Component[] components = c.getComponents();
+            for (Component comp : components) {
+                System.out.println("  - " + comp.getName() + " | " + comp.getIdentifier());
+            }
+        }
+    }
 }
-
-

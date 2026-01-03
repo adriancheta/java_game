@@ -110,7 +110,6 @@ public class GamePanel extends JPanel implements Runnable {
             player2.update();
         }
 
-
         checkPlayerHits();
         checkDash();
 
@@ -127,7 +126,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         dashEffects.removeIf(fx -> fx.finished);
-
     }
 
     public void paintComponent(Graphics g) {
