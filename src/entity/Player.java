@@ -112,18 +112,32 @@ public class Player extends PlayerActions {
 
             if (!input.isAttackPressed() && !attacking) {
                 if (input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()) {
+
+                    int nextX = x;
+                    int nextY = y;
+
                     if (input.isUpPressed()) {
                         direction = "up";
-                        y -= speed;
+                        nextY -= speed;
                     } else if (input.isDownPressed()) {
                         direction = "down";
-                        y += speed;
+                        nextY += speed;
                     } else if (input.isLeftPressed()) {
                         direction = "left";
-                        x -= speed;
+                        nextX -= speed;
                     } else if (input.isRightPressed()) {
                         direction = "right";
-                        x += speed;
+                        nextX += speed;
+                    }
+
+                    int nextHitboxX = nextX + bodyHitboxOffsetX;
+                    int nextHitboxY = nextY + bodyHitboxOffsetY;
+
+                    boolean collision = gp.groundM.isCollision(nextHitboxX, nextHitboxY, bodyHitbox.width, bodyHitbox.height);
+
+                    if (!collision) {
+                        x = nextX;
+                        y = nextY;
                     }
 
                     spriteCounter++;
@@ -131,7 +145,7 @@ public class Player extends PlayerActions {
                     if (spriteCounter == 10) {
                         spriteNum++;
 
-                        if (spriteNum == 3) {
+                        if (spriteNum > 3) {
                             spriteNum = 1;
                         }
 
@@ -141,6 +155,7 @@ public class Player extends PlayerActions {
                     spriteNum = 1;
                 }
             }
+
             bodyHitbox.x = x + bodyHitboxOffsetX;
             bodyHitbox.y = y + bodyHitboxOffsetY;
 

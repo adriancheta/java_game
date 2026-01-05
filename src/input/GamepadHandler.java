@@ -11,6 +11,8 @@ public class GamepadHandler implements PlayerInput {
     private boolean upPressed = false, downPressed = false;
     private boolean leftPressed = false, rightPressed = false;
     private boolean attackPressed = false, dashPressed = false;
+    private boolean alreadyPrintedNoGamepad = false;
+
 
     @Override
     public boolean isUpPressed() {
@@ -117,6 +119,7 @@ public class GamepadHandler implements PlayerInput {
         for (Controller c : controllers) {
             if (c.getType() == Controller.Type.GAMEPAD || c.getType() == Controller.Type.STICK || c.getType() == Controller.Type.UNKNOWN) {
                 // Prefer controllers that actually have X/Y axes
+                alreadyPrintedNoGamepad = false;
                 boolean hasX = false, hasY = false;
                 for (Component comp : c.getComponents()) {
                     if (comp.getIdentifier() == Component.Identifier.Axis.X) hasX = true;
@@ -130,7 +133,10 @@ public class GamepadHandler implements PlayerInput {
             }
         }
 
-        System.out.println("No gamepad detected by JInput.");
+        if (!alreadyPrintedNoGamepad) {
+            System.out.println("No gamepad detected by JInput.");
+            alreadyPrintedNoGamepad = true;
+        }
     }
 
     private void printDetectedControllers() {

@@ -1,5 +1,6 @@
 package main;
 
+import world.GroundManager;
 import GUI.GameConfig;
 import GUI.GameMode;
 import entity.*;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
 
+    public GroundManager groundM;
+
     final int originalTileSize = 16;
     final int scale = 4;
 
@@ -22,8 +25,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int tileSize = originalTileSize * scale;
 
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
+    public int maxScreenCol = 16;
+    public int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol;  //1024 pixels
     final int screenHeight = tileSize * maxScreenRow;  //768 pixels
 
@@ -46,6 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.config = config;
         SpriteLoader.loadDashSprites(this);
+
+        groundM = new GroundManager(this);
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.white);
@@ -133,6 +138,8 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
+        groundM.draw(g2); // DRAW BACKGROUND FIRST
+
         for (dashAnimation fx : dashEffects) {
             BufferedImage img = null;
             switch (fx.frame) {
@@ -173,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable {
                 if (target.health <= 0) continue;
 
                 if (attacker.attackHitbox.intersects(target.bodyHitbox)) {
-                    target.takeDamage(10);   // put this in Player/PlayerActions
+                    target.takeDamage(10);
                 }
             }
         }
