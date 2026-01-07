@@ -3,6 +3,7 @@ package entity;
 import main.GamePanel;
 import input.PlayerInput;
 
+import java.util.ArrayList;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -12,6 +13,7 @@ public class Player extends PlayerActions {
     public PlayerInput input;
     int playerNumber;
     public boolean attacking = false;
+    public ArrayList<Player> playersHitInCurrentAttack = new ArrayList<>();
 
     public Player(GamePanel gp, PlayerInput input, int playerNumber) {
 
@@ -25,7 +27,8 @@ public class Player extends PlayerActions {
 
     public void setDefaultValues() {
 
-        health = 100;
+        maxHealth = 100;
+        health = maxHealth;
         speed = 4;
 
         if (playerNumber == 1) {
@@ -65,6 +68,8 @@ public class Player extends PlayerActions {
                 attackNum = 1;
                 attackCounter = 0;
                 attackHitboxActive = false;
+
+                resetPlayersHitInCurrentAttack();
             }
 
             if (attacking) {
@@ -162,6 +167,10 @@ public class Player extends PlayerActions {
         } else {
             attackHitboxActive = false;
         }
+    }
+
+    public void resetPlayersHitInCurrentAttack() {
+        playersHitInCurrentAttack.clear();
     }
 
     public void draw(Graphics2D g2) {

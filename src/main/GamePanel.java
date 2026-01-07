@@ -155,10 +155,14 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-        player1.draw(g2);
-        if (player2 != null) {
+        if (player1.health > 0) {
+            player1.draw(g2);
+        }
+        if (player2.health > 0 && player2 != null) {
             player2.draw(g2);
         }
+
+        drawHealthBars(g2);
 
         g2.dispose();
     }
@@ -170,7 +174,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void checkPlayerHits() {
+
         for (Player attacker : players) {
+
             if (!attacker.attacking || !attacker.attackHitboxActive) {
                 continue;
             }
@@ -179,8 +185,13 @@ public class GamePanel extends JPanel implements Runnable {
                 if (target == attacker) continue;
                 if (target.health <= 0) continue;
 
+                if (attacker.playersHitInCurrentAttack.contains(target)) {
+                    continue;
+                }
+
                 if (attacker.attackHitbox.intersects(target.bodyHitbox)) {
-                    target.takeDamage(10);
+                    target.takeDamage(20);
+                    attacker.playersHitInCurrentAttack.add(target);
                 }
             }
         }
@@ -215,5 +226,82 @@ public class GamePanel extends JPanel implements Runnable {
             this.x = x;
             this.y = y;
         }
+    }
+
+    private void drawHealthBars(Graphics2D g2) {
+
+        int uiPadding = tileSize / 4;
+
+        int healthBarWidth = tileSize * 4;
+        int healthBarHeight = tileSize / 4;
+
+        int labelFontSize = tileSize / 3;
+        int labelToBarSpacing = tileSize / 8;
+
+        int labelY = uiPadding + labelFontSize;
+        int barY = labelY + labelToBarSpacing;
+
+        int player1BarX = uiPadding;
+        int player2BarX = screenWidth - uiPadding - healthBarWidth;
+
+        drawSingleHealthBar(g2, player1, "Player 1", player1BarX, labelY, barY, healthBarWidth, healthBarHeight);
+
+        if (player2 != null) {
+            drawSingleHealthBar(g2, player2, "Player 2", player2BarX, labelY, barY, healthBarWidth, healthBarHeight);
+        }
+    }
+
+    private void drawSingleHealthBar(Graphics2D g2, entity.Player player, String labelText,
+                                     int barX, int labelY, int barY, int barWidth, int barHeight) {
+
+        Object oldTextAntiAlias = g2.getRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+
+        int outlineThickness = 2;
+
+        Color outlineColor = Color.BLACK;
+        Color emptyHealthColor = new Color(60, 60, 60);
+        Color currentHealthColor = new Color(0, 200, 0);
+        Color labelColor = Color.WHITE;
+
+        Font labelFont = new Font("Monospaced", Font.BOLD, tileSize / 3);
+        g2.setFont(labelFont);
+
+        FontMetrics fm = g2.getFontMetrics();
+        int labelWidth = fm.stringWidth(labelText);
+
+        int labelX = barX + (barWidth - labelWidth) / 2;
+
+        g2.setColor(labelColor);
+        g2.drawString(labelText, labelX, labelY);
+
+        g2.setColor(outlineColor);
+        g2.fillRect(barX, barY, barWidth, barHeight);
+
+        int innerX = barX + outlineThickness;
+        int innerY = barY + outlineThickness;
+        int innerWidth = barWidth - outlineThickness * 2;
+        int innerHeight = barHeight - outlineThickness * 2;
+
+        g2.setColor(emptyHealthColor);
+        g2.fillRect(innerX, innerY, innerWidth, innerHeight);
+
+        int currentHealth = player.health;
+        int maxHealth = player.maxHealth;
+
+        if (currentHealth < 0) currentHealth = 0;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+
+        float healthRatio = 0.0f;
+        if (maxHealth > 0) {
+            healthRatio = (float) currentHealth / (float) maxHealth;
+        }
+
+        int filledWidth = (int) (innerWidth * healthRatio);
+
+        g2.setColor(currentHealthColor);
+        g2.fillRect(innerX, innerY, filledWidth, innerHeight);
+
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, oldTextAntiAlias);
     }
 }

@@ -1,7 +1,6 @@
 package GUI;
 
 import user.UserManager;
-
 import javax.swing.*;
 import java.awt.*;
 
