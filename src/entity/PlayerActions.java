@@ -37,16 +37,16 @@ public class PlayerActions extends Entity {
     public void dash() {
         switch(direction) {
             case "up":
-                y -= 175;
+                y = Math.max(y - 175, 60);
                 break;
             case "down":
-                y += 175;
+                y = Math.min(y + 175, 930);
                 break;
             case "left":
-                x -= 175;
+                x = Math.max(x - 175, 55);
                 break;
             case "right":
-                x += 175;
+                x = Math.min(x + 175, 920);
                 break;
             default:
                 break;

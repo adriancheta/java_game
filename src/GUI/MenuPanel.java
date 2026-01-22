@@ -10,14 +10,11 @@ public class MenuPanel extends JPanel {
         setPreferredSize(new Dimension(384, 288));
         setLayout(new GridLayout(3, 1, 10, 10));
 
-        JButton singleBtn = new JButton("Single Player");
-        JButton coopBtn   = new JButton("Local Co-op (2 players)");
+        JButton playBtn   = new JButton("Play");
 
-        singleBtn.addActionListener(e -> frame.showLogin(GameMode.SINGLE_PLAYER));
-        coopBtn.addActionListener(e -> frame.showLogin(GameMode.LOCAL_COOP));
+        playBtn.addActionListener(e -> frame.showLogin());
 
         add(new JLabel("Choose mode:", SwingConstants.CENTER));
-        add(singleBtn);
-        add(coopBtn);
+        add(playBtn);
     }
 }

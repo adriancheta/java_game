@@ -15,7 +15,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
 
-        setTitle("Yeah");
+        setTitle("Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
@@ -28,9 +28,9 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public void startGame(GameConfig config) {
+    public void startGame() {
 
-        GamePanel gamePanel = new GamePanel(config);
+        GamePanel gamePanel = new GamePanel();
         root.add(gamePanel, "GAME");
         cardLayout.show(root, "GAME");
 
@@ -48,9 +48,9 @@ public class MainFrame extends JFrame {
         return userManager;
     }
 
-    public void showLogin(GameMode mode) {
+    public void showLogin() {
 
-        LoginPanel login = new LoginPanel(this, mode);
+        LoginPanel login = new LoginPanel(this);
         root.add(login, "LOGIN");
         cardLayout.show(root, "LOGIN");
     }

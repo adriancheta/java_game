@@ -1,11 +1,7 @@
 package main;
 
 import world.GroundManager;
-import GUI.GameConfig;
-import GUI.GameMode;
 import entity.*;
-import input.CombinedInput;
-import input.PlayerInput;
 import input.GamepadHandler;
 import input.KeyHandler;
 
@@ -34,20 +30,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;
 
-    private GameConfig config;
-
     private Player player1;
     private Player player2;
 
     KeyHandler keyH = new KeyHandler();
     GamepadHandler padH = new GamepadHandler();
-    PlayerInput input = new CombinedInput(keyH, padH);
 
     public java.util.List<Player> players = new ArrayList<>();
 
-    public GamePanel(GameConfig config) {
+    public GamePanel() {
 
-        this.config = config;
         SpriteLoader.loadDashSprites(this);
 
         groundM = new GroundManager(this);
@@ -60,16 +52,10 @@ public class GamePanel extends JPanel implements Runnable {
         requestFocusInWindow();
         this.setDoubleBuffered(true);
 
-        if (config.mode == GameMode.SINGLE_PLAYER) {  //SINGLE_PLAYER
-            PlayerInput inputSingle = new CombinedInput(keyH, padH);
-            player1 = new Player(this, inputSingle, 1);
-            players.add(player1);
-        } else {                                      //LOCAL_COOP
-            player1 = new Player(this, keyH, 1);
-            player2 = new Player(this, padH, 2);
-            players.add(player1);
-            players.add(player2);
-        }
+        player1 = new Player(this, keyH, 1);
+        player2 = new Player(this, padH, 2);
+        players.add(player1);
+        players.add(player2);
     }
 
     public void startGameThread() {
